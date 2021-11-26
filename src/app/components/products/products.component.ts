@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StoreService } from 'src/app/services/store.service';
+import { ProductsService } from 'src/app/services/products.service';
 import { Product } from '../models/product.model';
 
 @Component({
@@ -7,59 +9,27 @@ import { Product } from '../models/product.model';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-  constructor() {}
+  totalPrice = 0;
+  myShoppingCart: Product[] = [];
+  today = new Date();
+  date = new Date(2021, 1, 21);
+  constructor(
+    private storeService: StoreService,
+    private productsService: ProductsService
+  ) {
+    this.myShoppingCart = this.storeService.getShoppingCart();
+  }
 
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'EL mejor juguete',
-      price: 565,
-      image: 'https://picsum.photos/300?random=1',
-      category: 'all',
-    },
-    {
-      id: 2,
-      name: 'Bicicleta casi nueva',
-      price: 356,
-      image: 'https://picsum.photos/300?random=2',
-    },
-    {
-      id: 3,
-      name: 'Colleción de albumnes',
-      price: 34,
-      image: 'https://picsum.photos/300?random=3',
-    },
-    {
-      id: 4,
-      name: 'Mis libros',
-      price: 23,
-      image: 'https://picsum.photos/300?random=4',
-    },
-    {
-      id: 5,
-      name: 'Casa para perro',
-      price: 34,
-      image: 'https://picsum.photos/300?random=5',
-    },
-    {
-      id: 6,
-      name: 'Gafas',
-      price: 3434,
-      image: 'https://picsum.photos/300?random=6',
-    },
-    {
-      id: 7,
-      name: 'Juguete de mascota',
-      price: 3434,
-      image: 'https://picsum.photos/300?random=7',
-    },
-    {
-      id: 8,
-      name: 'Computadora',
-      price: 34340,
-      image: 'https://picsum.photos/300?random=8',
-    },
-  ];
+  products: Product[] = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.productsService.getAllProducts().subscribe((data) => {
+      this.products = data;
+    });
+  }
+
+  onAddToShoppingCart(product: Product) {
+    this.storeService.addProductToCart(product);
+    this.totalPrice = this.storeService.getTotalPrice();
+  }
 }

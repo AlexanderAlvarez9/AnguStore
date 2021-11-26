@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../models/product.model';
+import { Product, Product2 } from '../models/product.model';
 
 @Component({
   selector: 'app-learning',
@@ -41,7 +41,7 @@ export class LearningComponent implements OnInit {
     password: '123456',
   };
 
-  products: Product[] = [
+  products: Product2[] = [
     {
       id: 1,
       name: 'EL mejor juguete',

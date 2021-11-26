@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '../models/product.model';
 
 @Component({
@@ -11,10 +11,18 @@ export class ProductComponent implements OnInit {
 
   @Input() product: Product = {
     id: 0,
-    name: '',
+    title: '',
     price: 0,
     image: '',
+    description: '',
+    category: '',
   };
 
+  @Output() addedProduct = new EventEmitter<Product>();
+
   ngOnInit(): void {}
+
+  onAddToCart() {
+    this.addedProduct.emit(this.product);
+  }
 }
